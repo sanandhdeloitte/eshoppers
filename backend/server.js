@@ -55,14 +55,14 @@ app.use('/api/wishlist',  wishlistRoutes);
 app.use('/api/payments',  paymentRoutes);
 app.use('/api/orders',    orderRoutes);
 
-// ── Serve Angular Static Files ────────────────────────────────
+// ── Serve Angular Static Assets ───────────────────────────────
 if (staticPath) {
   app.use(express.static(staticPath));
 }
 
-// ── Catch-All ─────────────────────────────────────────────────
-// ✅ Use regex instead of '*' — works with Node 26 + path-to-regexp v8
-app.get(/(.*)/, (req, res) => {
+// ── Catch-All: use app.use — no path-to-regexp, works on ALL Node versions ──
+app.use((req, res) => {
+  // API routes that reached here = not found
   if (req.path.startsWith('/api/')) {
     return res.status(404).json({ error: 'API route not found' });
   }

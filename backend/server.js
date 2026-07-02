@@ -20,7 +20,6 @@ const orderRoutes    = require('./routes/order.routes');
 const app = express();
 
 // ── Resolve static path ───────────────────────────────────────
-// Try every known Angular output location in order
 const possiblePaths = [
   path.join(__dirname, '../frontend/dist/shop-app/browser'),
   path.join(__dirname, '../frontend/dist/shop-app'),
@@ -29,7 +28,6 @@ const possiblePaths = [
 ];
 
 let staticPath = null;
-
 for (const p of possiblePaths) {
   if (fs.existsSync(path.join(p, 'index.html'))) {
     staticPath = p;
@@ -45,10 +43,7 @@ if (!staticPath) {
 }
 
 // ── Middleware ────────────────────────────────────────────────
-app.use(cors({
-  origin: process.env.FRONTEND_URL || '*',
-  credentials: true
-}));
+app.use(cors({ origin: process.env.FRONTEND_URL || '*', credentials: true }));
 app.use('/api/payments/webhook', express.raw({ type: 'application/json' }));
 app.use(express.json());
 
@@ -65,9 +60,9 @@ if (staticPath) {
   app.use(express.static(staticPath));
 }
 
-// ── Catch-All: ALL routes → index.html ───────────────────────
-app.get('*', (req, res) => {
-  // Skip API routes
+// ── Catch-All ─────────────────────────────────────────────────
+// ✅ Use regex instead of '*' — works with Node 26 + path-to-regexp v8
+app.get(/(.*)/, (req, res) => {
   if (req.path.startsWith('/api/')) {
     return res.status(404).json({ error: 'API route not found' });
   }
@@ -78,8 +73,7 @@ app.get('*', (req, res) => {
     );
   }
 
-  const indexFile = path.join(staticPath, 'index.html');
-  res.sendFile(indexFile, (err) => {
+  res.sendFile(path.join(staticPath, 'index.html'), (err) => {
     if (err) {
       console.error('sendFile error:', err);
       res.status(500).send(`Failed to send index.html: ${err.message}`);

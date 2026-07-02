@@ -38,10 +38,9 @@ const staticPath = path.join(__dirname, '../frontend/dist/shop-app/browser');
 
 app.use(express.static(staticPath));
 
-app.get('*', (req, res) => {
+app.get(/.*/, (req, res) => {
   res.sendFile(path.join(staticPath, 'index.html'));
 });
-
 // ── Start ─────────────────────────────────────────────────────
 connectToDatabase()
   .then(() => {

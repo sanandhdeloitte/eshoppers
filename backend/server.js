@@ -19,6 +19,31 @@ const orderRoutes    = require('./routes/order.routes');
 
 const app = express();
 
+// ── Resolve static path ───────────────────────────────────────
+// Try every known Angular output location in order
+const possiblePaths = [
+  path.join(__dirname, '../frontend/dist/shop-app/browser'),
+  path.join(__dirname, '../frontend/dist/shop-app'),
+  path.join(__dirname, '../../frontend/dist/shop-app/browser'),
+  path.join(__dirname, '../../frontend/dist/shop-app'),
+];
+
+let staticPath = null;
+
+for (const p of possiblePaths) {
+  if (fs.existsSync(path.join(p, 'index.html'))) {
+    staticPath = p;
+    break;
+  }
+}
+
+if (!staticPath) {
+  console.error('❌ index.html NOT FOUND. Searched:');
+  possiblePaths.forEach(p => console.error('  ', p));
+} else {
+  console.log(`✅ Serving static files from: ${staticPath}`);
+}
+
 // ── Middleware ────────────────────────────────────────────────
 app.use(cors({
   origin: process.env.FRONTEND_URL || '*',
@@ -35,32 +60,31 @@ app.use('/api/wishlist',  wishlistRoutes);
 app.use('/api/payments',  paymentRoutes);
 app.use('/api/orders',    orderRoutes);
 
-// ── Serve Angular CSR ─────────────────────────────────────────
-const browserPath = path.join(__dirname, '../frontend/dist/shop-app/browser');
-const rootPath    = path.join(__dirname, '../frontend/dist/shop-app');
+// ── Serve Angular Static Files ────────────────────────────────
+if (staticPath) {
+  app.use(express.static(staticPath));
+}
 
-const staticPath  = fs.existsSync(path.join(browserPath, 'index.html'))
-  ? browserPath
-  : rootPath;
-
-console.log(`✅ Serving static files from: ${staticPath}`);
-
-// serve static assets (js, css, images)
-app.use(express.static(staticPath));
-
-// ── Catch-All: send index.html for ALL non-API routes ─────────
-app.use((req, res, next) => {
-  if (req.path.startsWith('/api/')) return next();
-  const indexFile = path.join(staticPath, 'index.html');
-  if (!fs.existsSync(indexFile)) {
-    return res.status(404).send('index.html not found');
+// ── Catch-All: ALL routes → index.html ───────────────────────
+app.get('*', (req, res) => {
+  // Skip API routes
+  if (req.path.startsWith('/api/')) {
+    return res.status(404).json({ error: 'API route not found' });
   }
-  res.sendFile(indexFile);
-});
 
-// ── 404 handler for unmatched API routes ─────────────────────
-app.use((req, res) => {
-  res.status(404).json({ error: 'API route not found' });
+  if (!staticPath) {
+    return res.status(500).send(
+      `index.html not found. Searched: ${possiblePaths.join(', ')}`
+    );
+  }
+
+  const indexFile = path.join(staticPath, 'index.html');
+  res.sendFile(indexFile, (err) => {
+    if (err) {
+      console.error('sendFile error:', err);
+      res.status(500).send(`Failed to send index.html: ${err.message}`);
+    }
+  });
 });
 
 // ── Start ─────────────────────────────────────────────────────

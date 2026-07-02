@@ -45,10 +45,22 @@ const staticPath  = fs.existsSync(path.join(browserPath, 'index.html'))
 
 console.log(`✅ Serving static files from: ${staticPath}`);
 
+// serve static assets (js, css, images)
 app.use(express.static(staticPath));
 
-app.get(/.*/, (req, res) => {
-  res.sendFile(path.join(staticPath, 'index.html'));
+// ── Catch-All: send index.html for ALL non-API routes ─────────
+app.use((req, res, next) => {
+  if (req.path.startsWith('/api/')) return next();
+  const indexFile = path.join(staticPath, 'index.html');
+  if (!fs.existsSync(indexFile)) {
+    return res.status(404).send('index.html not found');
+  }
+  res.sendFile(indexFile);
+});
+
+// ── 404 handler for unmatched API routes ─────────────────────
+app.use((req, res) => {
+  res.status(404).json({ error: 'API route not found' });
 });
 
 // ── Start ─────────────────────────────────────────────────────

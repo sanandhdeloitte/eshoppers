@@ -1,0 +1,26 @@
+<div class="w-full">
+  @if (label) {
+    <label [for]="inputId" class="mb-2 block text-sm font-medium text-gray-700">
+      {{ label }}
+    </label>
+  }
+
+  <input
+    [id]="inputId"
+    [type]="type"
+    [name]="name"
+    [placeholder]="placeholder"
+    [autocomplete]="autocomplete"
+    [value]="value"
+    [disabled]="isDisabled"
+    (input)="onInput($event)"
+    (blur)="onBlur()"
+    class="w-full rounded-xl border px-4 py-3 mb-4 outline-none transition"
+    [class.border-red-500]="invalid"
+    [class.border-gray-300]="!invalid"
+  />
+
+  @if (errorMessage) {
+    <p class="mt-1 text-sm text-red-500">{{ errorMessage }}</p>
+  }
+</div>

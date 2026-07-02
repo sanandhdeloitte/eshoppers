@@ -1,0 +1,6 @@
+<div class="flex items-center gap-3" [ngClass]="{ 'justify-center': centered }">
+  <span [ngClass]="spinnerClasses"></span>
+  @if (label) {
+    <span class="text-sm text-slate-600">{{ label }}</span>
+  }
+</div>

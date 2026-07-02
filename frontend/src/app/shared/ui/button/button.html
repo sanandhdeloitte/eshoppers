@@ -1,0 +1,12 @@
+<button
+  [attr.type]="type"
+  [disabled]="disabled || loading"
+  [ngClass]="buttonClasses"
+  (click)="handleClick()"
+>
+  @if (loading) {
+    <span class="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></span>
+  }
+
+  <span>{{ label }}</span>
+</button>

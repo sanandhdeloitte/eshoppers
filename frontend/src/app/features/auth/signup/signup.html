@@ -1,0 +1,111 @@
+<div class="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
+  <div class="w-full max-w-sm rounded-3xl bg-white p-10 shadow-xl">
+    <div class="mb-8 text-center">
+      <div class="mb-3 flex items-center justify-center gap-2">
+        <span class="text-2xl font-bold text-blue-600">e-SHOPPERS</span>
+      </div>
+
+      <h1 class="text-2xl font-bold text-gray-800">Sign UP</h1>
+      <p class="mt-2 text-sm text-slate-500">Create account to continue shopping</p>
+
+      <app-modal
+        [open]="showSuccessPopup"
+        title="Account Created"
+        (closed)="goToSignin()"
+      >
+        <p class="text-sm text-gray-500">
+          Your account has been created successfully.
+        </p>
+
+        <div modal-actions>
+          <app-button
+            label="Go to Sign In"
+            variant="primary"
+            [fullWidth]="true"
+            (pressed)="goToSignin()"
+          ></app-button>
+        </div>
+      </app-modal>
+
+      <div class="mt-4">
+        <form #signupform="ngForm" (ngSubmit)="signup(signupform)" class="space-y-4">
+          <app-input
+            type="text"
+            name="name"
+            [(ngModel)]="form.name"
+            #name="ngModel"
+            required
+            minlength="3"
+            placeholder="Enter your Name"
+            [invalid]="!!(name.invalid && name.touched)"
+            [errorMessage]="
+              name.invalid && name.touched
+                ? (name.errors?.['required']
+                    ? 'Name is required'
+                    : name.errors?.['minlength']
+                      ? 'Name must be at least 3 characters'
+                      : '')
+                : ''
+            "
+          ></app-input>
+
+          <app-input
+            type="email"
+            name="email"
+            [(ngModel)]="form.email"
+            #email="ngModel"
+            required
+            email
+            placeholder="Enter your email"
+            [invalid]="!!(email.invalid && email.touched)"
+            [errorMessage]="
+              email.invalid && email.touched
+                ? (email.errors?.['required']
+                    ? 'Email is required'
+                    : email.errors?.['email']
+                      ? 'Enter valid email'
+                      : '')
+                : ''
+            "
+          ></app-input>
+
+          <app-input
+            type="password"
+            name="password"
+            [(ngModel)]="form.password"
+            #password="ngModel"
+            required
+            placeholder="Enter your password"
+            [invalid]="!!(password.invalid && password.touched)"
+            [errorMessage]="
+              password.invalid && password.touched && password.errors?.['required']
+                ? 'Password is required'
+                : ''
+            "
+          ></app-input>
+
+          <app-button
+            label="Sign UP"
+            type="submit"
+            variant="primary"
+            [fullWidth]="true"
+            [disabled]="!!signupform.invalid"
+          ></app-button>
+
+          <app-error-message [message]="errorMessage"></app-error-message>
+        </form>
+
+        <div class="mt-5 text-center text-sm text-gray-500">
+          Back to:
+          <button
+            type="button"
+            (click)="goToSignin()"
+            class="ml-1 cursor-pointer font-semibold text-blue-600 hover:text-blue-700"
+          >
+            Sign In
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

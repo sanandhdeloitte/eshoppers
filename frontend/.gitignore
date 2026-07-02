@@ -1,0 +1,68 @@
+# filename: .gitignore
+
+# ── Secrets (NEVER commit) ─────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ── Angular Environments (NEVER commit real API keys) ──────────
+frontend/src/environments/environment.ts
+frontend/src/environments/environment.development.ts
+frontend/src/environments/environment.prod.ts
+
+# ── Compiled Output ────────────────────────────────────────────
+/dist
+/tmp
+/out-tsc
+/bazel-out
+frontend/dist/
+
+# ── Node Modules (all levels) ──────────────────────────────────
+/node_modules
+node_modules/
+frontend/node_modules/
+backend/node_modules/
+npm-debug.log
+yarn-error.log
+
+# ── Angular Cache ──────────────────────────────────────────────
+/.angular/cache
+frontend/.angular/
+.sass-cache/
+*.tsbuildinfo
+
+# ── IDEs and Editors ───────────────────────────────────────────
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/mcp.json
+.history/*
+
+# ── Logs ───────────────────────────────────────────────────────
+logs/
+*.log
+/libpeerconnection.log
+/connect.lock
+
+# ── Test / Coverage ────────────────────────────────────────────
+/coverage
+testem.log
+/typings
+__screenshots__/
+
+# ── Storybook ──────────────────────────────────────────────────
+*storybook.log
+storybook-static
+
+# ── System Files ───────────────────────────────────────────────
+.DS_Store
+Thumbs.db

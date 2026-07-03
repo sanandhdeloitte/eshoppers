@@ -27,23 +27,29 @@ export class WishlistComponent implements OnInit {
   lists = inject(UserListsService);
 
   products = signal<Product[]>([]);
+  loading = signal<boolean>(false);
 
   ngOnInit(): void {
+    this.loading.set(true);
     this.lists.loadAll();
     this.loadWishlistProducts();
   }
 
   loadWishlistProducts(): void {
+    this.loading.set(true);
     const userId = this.auth.user?.sub?.trim();
-  if (!userId) return;
-    console.log(environment.apiUrl + "wishlist" + userId)
+    if (!userId) return;
+    console.log(environment.apiUrl + 'wishlist' + userId);
 
-    this.http
-      .get<WishlistResponse>(`${environment.apiUrl}/wishlist/${userId}`)
-      .subscribe({
-        next: (res) => this.products.set(res.products ?? []),
-        error: () => this.products.set([]),
-      });
+    this.http.get<WishlistResponse>(`${environment.apiUrl}/wishlist/${userId}`).subscribe({
+      next: (res) => {
+        this.products.set(res.products ?? []);
+        this.loading.set(false);
+      },
+      error: () => {
+        this.products.set([]);
+       this.loading.set(false);},
+    });
   }
 
   remove(product: Product): void {

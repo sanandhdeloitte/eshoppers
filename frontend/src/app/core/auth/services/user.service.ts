@@ -15,7 +15,6 @@ interface RegisterResponse {
   message: string;
 }
 
-// NEW: backend now returns user + token on login
 export interface LoginResponse {
   success: boolean;
   user:    AppUser;
@@ -37,7 +36,6 @@ export class UserService {
     return this.http.post<RegisterResponse>(`${this.apiUrl}/register`, user);
   }
 
-  // CHANGED: calls POST /login instead of GET /:email
   loginUser(email: string, password: string): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/login`, { email, password });
   }

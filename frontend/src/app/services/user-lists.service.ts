@@ -1,10 +1,11 @@
-import { Injectable, computed, inject, signal } from '@angular/core';
+import { Injectable, PLATFORM_ID, computed, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../core/auth/services/auth-service';
 import { Product } from '../core/models/product.model';
+import { isPlatformBrowser } from '@angular/common';
 
 export interface CartItem {
   productId:  number;
@@ -25,6 +26,7 @@ export class UserListsService {
   private auth   = inject(AuthService);
   private toastr = inject(ToastrService);
   private apiUrl = environment.apiUrl;
+  private platformId = inject(PLATFORM_ID);
 
   cartItems    = signal<CartItem[]>([]);
   wishlistIds  = signal<number[]>([]);
@@ -39,6 +41,7 @@ export class UserListsService {
   }
 
   loadAll(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
     try {
       forkJoin({
         cart:     this.http.get<CartResponse>(`${this.apiUrl}/cart/${this.userId}`),

@@ -48,7 +48,6 @@ describe('ProductCardComponent — minimal', () => {
 
     fixture   = TestBed.createComponent(ProductCardComponent);
     component = fixture.componentInstance;
-    // ⚠️ No detectChanges() here — every test sets @Input first, then calls it
   });
 
   // ── 1. Component creation ─────────────────────────────────────────────────
@@ -156,7 +155,7 @@ describe('ProductCardComponent — minimal', () => {
   });
 
   it('should show qty badge when cartQty > 0', () => {
-    mockLists.getCartQuantity.mockReturnValue(2);   // ✅ mock BEFORE detectChanges
+    mockLists.getCartQuantity.mockReturnValue(2);   
     component.product = mockProduct;
     fixture.detectChanges();
     const badge = fixture.nativeElement.querySelector('button span.ml-1');

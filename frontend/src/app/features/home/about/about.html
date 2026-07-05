@@ -3,72 +3,52 @@
 <main class="bg-[#eaeded] min-h-screen">
   <div class="mx-auto max-w-6xl space-y-4 px-4 py-5">
 
+    <!-- ── HERO ── -->
     <section class="bg-[#232f3e] px-6 py-10 text-white sm:px-10 sm:py-14 rounded">
       <h1 class="text-2xl font-bold sm:text-3xl">About eSHOPPERS</h1>
       <p class="mt-2 max-w-2xl text-sm text-slate-300 sm:text-base">
         We started with a simple idea — make great products accessible to everyone, at honest
         prices, delivered with care. Today we serve 50,000+ customers across 25 countries.
       </p>
-
-       <a
-        data-testid="shop-btn"
-        routerLink="/home"
-        class="mt-5 inline-block bg-[#ffd814] hover:bg-[#f7ca00] text-[#131921] font-bold text-sm px-5 py-2 rounded"
-      >
+      <a data-testid="shop-btn" routerLink="/home"
+        class="mt-5 inline-block bg-[#ffd814] hover:bg-[#f7ca00] text-[#131921] font-bold text-sm px-5 py-2 rounded">
         Start Shopping
       </a>
     </section>
 
-     <section class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+    <!-- ── STATS ── -->
+    <section class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
       @for (stat of stats; track stat.label) {
-
         <div data-testid="stat-card" class="bg-white border border-slate-200 rounded p-4 text-center">
           <p class="text-xl font-bold text-[#131921]">{{ stat.value }}</p>
           <p class="mt-1 text-xs text-slate-500">{{ stat.label }}</p>
         </div>
-
       }
     </section>
 
     <!-- ── OUR STORY ── -->
     <section class="bg-white border border-slate-200 rounded p-5 sm:p-7">
-      <h2 class="text-lg font-bold text-slate-900 border-b border-slate-200 pb-2 mb-4">
-        Our Story
-      </h2>
+      <h2 class="text-lg font-bold text-slate-900 border-b border-slate-200 pb-2 mb-4">Our Story</h2>
       <div class="grid gap-6 lg:grid-cols-2">
         <div class="space-y-3 text-sm leading-relaxed text-slate-600">
-          <p>
-            eSHOPPERS was founded in 2020 by two engineers frustrated by overpriced goods and
+          <p>eSHOPPERS was founded in 2020 by two engineers frustrated by overpriced goods and
             unreliable delivery. With $20,000 in savings and a lot of determination, Sarah and James
-            launched from a Brooklyn apartment with just 200 products.
-          </p>
-          <p>
-            Within six months they had 1,000 customers — many of whom still shop with us today. We
+            launched from a Brooklyn apartment with just 200 products.</p>
+          <p>Within six months they had 1,000 customers — many of whom still shop with us today. We
             have since grown to 10,000+ products, 500+ brand partners, and a team of 80 people
-            across 4 continents.
-          </p>
-          <p>
-            We've turned down acquisition offers from larger platforms because staying independent
+            across 4 continents.</p>
+          <p>We've turned down acquisition offers from larger platforms because staying independent
             is the only way to stay true to our values.
-            <strong>No dark patterns, no hidden fees, no selling your data.</strong>
-          </p>
+            <strong>No dark patterns, no hidden fees, no selling your data.</strong></p>
         </div>
-
-        <!-- Founder quote -->
         <div class="bg-[#f0f2f2] border border-slate-200 rounded p-5">
           <p class="text-3xl font-black text-[#f3a847] leading-none">"</p>
           <p class="mt-1 text-sm font-semibold text-slate-800 leading-snug sm:text-base">
-            We didn't build eSHOPPERS to compete.<br />We built it to <em>serve</em>.
+            We didn't build eSHOPPERS to compete.<br/>We built it to <em>serve</em>.
           </p>
-          <p class="mt-3 text-sm text-slate-500">
-            Every decision is filtered through one question: is this right for our customer?
-          </p>
+          <p class="mt-3 text-sm text-slate-500">Every decision is filtered through one question: is this right for our customer?</p>
           <div class="mt-4 flex items-center gap-2 border-t border-slate-200 pt-4">
-            <div
-              class="h-8 w-8 rounded-full bg-[#232f3e] flex items-center justify-center text-xs font-bold text-[#ffd814]"
-            >
-              SM
-            </div>
+            <div class="h-8 w-8 rounded-full bg-[#232f3e] flex items-center justify-center text-xs font-bold text-[#ffd814]">SM</div>
             <div>
               <p class="text-sm font-semibold text-slate-800">Sarah Mitchell</p>
               <p class="text-xs text-slate-400">CEO & Co-Founder</p>
@@ -81,72 +61,126 @@
     <!-- ── MISSION & VISION ── -->
     <section class="grid gap-4 sm:grid-cols-2">
       <div class="bg-white border border-slate-200 rounded p-5">
-        <h3 class="font-bold text-slate-900 flex items-center gap-2">
-          <span>🎯</span> Our Mission
-        </h3>
+        <h3 class="font-bold text-slate-900 flex items-center gap-2"><span>🎯</span> Our Mission</h3>
         <p class="mt-2 text-sm text-slate-600 leading-relaxed">
           Make high-quality products accessible and affordable to every household, backed by a
-          seamless experience that respects the customer's time, money and privacy.
-        </p>
+          seamless experience that respects the customer's time, money and privacy.</p>
         <ul class="mt-3 space-y-1.5 text-sm text-slate-500">
-          <li class="flex gap-2">
-            <span class="text-[#f3a847]">›</span> Transparent pricing, no hidden fees
-          </li>
-          <li class="flex gap-2">
-            <span class="text-[#f3a847]">›</span> Fast, reliable delivery every time
-          </li>
-          <li class="flex gap-2">
-            <span class="text-[#f3a847]">›</span> Products curated for quality, not margin
-          </li>
+          <li class="flex gap-2"><span class="text-[#f3a847]">›</span> Transparent pricing, no hidden fees</li>
+          <li class="flex gap-2"><span class="text-[#f3a847]">›</span> Fast, reliable delivery every time</li>
+          <li class="flex gap-2"><span class="text-[#f3a847]">›</span> Products curated for quality, not margin</li>
         </ul>
       </div>
-
       <div class="bg-white border border-slate-200 rounded p-5">
-        <h3 class="font-bold text-slate-900 flex items-center gap-2">
-          <span>🔭</span> Our Vision
-        </h3>
+        <h3 class="font-bold text-slate-900 flex items-center gap-2"><span>🔭</span> Our Vision</h3>
         <p class="mt-2 text-sm text-slate-600 leading-relaxed">
           Become the most trusted online marketplace in the world — where every shopper feels safe
-          and valued, and every brand gets a fair platform to grow.
-        </p>
+          and valued, and every brand gets a fair platform to grow.</p>
         <ul class="mt-3 space-y-1.5 text-sm text-slate-500">
-          <li class="flex gap-2">
-            <span class="text-emerald-500">›</span> 100 countries served by 2027
-          </li>
-          <li class="flex gap-2">
-            <span class="text-emerald-500">›</span> Carbon-neutral operations by 2026
-          </li>
-          <li class="flex gap-2">
-            <span class="text-emerald-500">›</span> #1 customer satisfaction in e-commerce
-          </li>
+          <li class="flex gap-2"><span class="text-emerald-500">›</span> 100 countries served by 2027</li>
+          <li class="flex gap-2"><span class="text-emerald-500">›</span> Carbon-neutral operations by 2026</li>
+          <li class="flex gap-2"><span class="text-emerald-500">›</span> #1 customer satisfaction in e-commerce</li>
         </ul>
       </div>
     </section>
 
     <!-- ── CORE VALUES ── -->
     <section class="bg-white border border-slate-200 rounded p-5 sm:p-7">
-      <h2 class="text-lg font-bold text-slate-900 border-b border-slate-200 pb-2 mb-4">
-        What We Stand For
-      </h2>
+      <h2 class="text-lg font-bold text-slate-900 border-b border-slate-200 pb-2 mb-4">What We Stand For</h2>
       <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         @for (v of values; track v.title) {
-
-          <!-- ✅ CHANGE 3: added data-testid="value-card" -->
           <div data-testid="value-card" class="border border-slate-200 rounded p-4">
             <p class="text-xl">{{ v.icon }}</p>
             <p class="mt-2 text-sm font-semibold text-slate-800">{{ v.title }}</p>
             <p class="mt-1 text-xs text-slate-500 leading-relaxed">{{ v.desc }}</p>
           </div>
+        }
+      </div>
+    </section>
 
+    <!-- ── BUYER GUARANTEES (NEW) ── -->
+    <section class="bg-white border border-slate-200 rounded p-5 sm:p-7">
+      <h2 class="text-lg font-bold text-slate-900 border-b border-slate-200 pb-2 mb-4">Our Buyer Guarantees</h2>
+      <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        @for (g of guarantees; track g.title) {
+          <div class="flex gap-3 border border-slate-200 rounded p-4">
+            <span class="text-xl shrink-0">{{ g.icon }}</span>
+            <div>
+              <p class="text-sm font-semibold text-slate-800">{{ g.title }}</p>
+              <p class="mt-1 text-xs text-slate-500 leading-relaxed">{{ g.desc }}</p>
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- ── CATEGORIES (NEW) ── -->
+    <section class="bg-white border border-slate-200 rounded p-5 sm:p-7">
+      <h2 class="text-lg font-bold text-slate-900 border-b border-slate-200 pb-2 mb-4">Browse by Category</h2>
+      <div class="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">
+        @for (cat of categories; track cat.name) {
+          <a routerLink="/home" class="flex flex-col items-center gap-2 rounded-xl border border-slate-200
+                                      p-4 text-center hover:border-[#f3a847] hover:bg-[#fffbee] transition">
+            <span class="text-2xl">{{ cat.icon }}</span>
+            <p class="text-xs font-semibold text-slate-700">{{ cat.name }}</p>
+            <p class="text-[10px] text-slate-400">{{ cat.count }}</p>
+          </a>
+        }
+      </div>
+    </section>
+
+    <!-- ── AWARDS (NEW) ── -->
+    <section class="bg-white border border-slate-200 rounded p-5 sm:p-7">
+      <h2 class="text-lg font-bold text-slate-900 border-b border-slate-200 pb-2 mb-4">🏆 Awards & Recognition</h2>
+      <div class="space-y-3">
+        @for (award of awards; track award.title) {
+          <div class="flex items-center gap-4 rounded-xl border border-slate-100 bg-[#fafafa] p-4">
+            <span class="shrink-0 flex h-10 w-10 items-center justify-center rounded-full bg-[#ffd814] text-lg font-black text-[#131921]">
+              {{ award.year.slice(-2) }}
+            </span>
+            <div>
+              <p class="text-sm font-semibold text-slate-800">{{ award.title }}</p>
+              <p class="text-xs text-slate-400">{{ award.org }} · {{ award.year }}</p>
+            </div>
+            <span class="ml-auto text-lg">🏆</span>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- ── PRESS (NEW) ── -->
+    <section class="bg-white border border-slate-200 rounded p-5 sm:p-7">
+      <h2 class="text-lg font-bold text-slate-900 border-b border-slate-200 pb-2 mb-4">📰 What the Press Says</h2>
+      <div class="grid gap-4 sm:grid-cols-2">
+        @for (p of press; track p.outlet) {
+          <div class="rounded-xl border border-slate-200 bg-[#f8f9fa] p-5">
+            <p class="text-sm italic text-slate-700 leading-relaxed">{{ p.quote }}</p>
+            <div class="mt-3 flex items-center justify-between">
+              <p class="text-xs font-bold text-[#131921]">— {{ p.outlet }}</p>
+              <p class="text-xs text-slate-400">{{ p.year }}</p>
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- ── BRAND PARTNERS (NEW) ── -->
+    <section class="bg-white border border-slate-200 rounded p-5 sm:p-7">
+      <h2 class="text-lg font-bold text-slate-900 border-b border-slate-200 pb-2 mb-4">🤝 Our Brand Partners</h2>
+      <div class="flex flex-wrap gap-3">
+        @for (brand of partnerLogos; track brand) {
+          <div class="inline-flex items-center justify-center rounded-xl border-2 border-slate-200
+                      bg-[#f8f9fa] px-5 py-3 text-sm font-bold text-slate-600
+                      hover:border-[#f3a847] hover:text-[#131921] transition">
+            {{ brand }}
+          </div>
         }
       </div>
     </section>
 
     <!-- ── TIMELINE ── -->
     <section class="bg-white border border-slate-200 rounded p-5 sm:p-7">
-      <h2 class="text-lg font-bold text-slate-900 border-b border-slate-200 pb-2 mb-5">
-        Our Journey
-      </h2>
+      <h2 class="text-lg font-bold text-slate-900 border-b border-slate-200 pb-2 mb-5">Our Journey</h2>
       <div class="space-y-0 divide-y divide-slate-100">
         @for (m of milestones; track m.year) {
           <div class="flex gap-4 py-4">
@@ -162,15 +196,11 @@
 
     <!-- ── TEAM ── -->
     <section class="bg-white border border-slate-200 rounded p-5 sm:p-7">
-      <h2 class="text-lg font-bold text-slate-900 border-b border-slate-200 pb-2 mb-4">
-        Leadership Team
-      </h2>
+      <h2 class="text-lg font-bold text-slate-900 border-b border-slate-200 pb-2 mb-4">Leadership Team</h2>
       <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         @for (m of team; track m.name) {
           <div class="border border-slate-200 rounded p-4 flex gap-3">
-            <div
-              class="shrink-0 h-10 w-10 rounded-full bg-[#232f3e] flex items-center justify-center text-xs font-bold text-[#ffd814]"
-            >
+            <div class="shrink-0 h-10 w-10 rounded-full bg-[#232f3e] flex items-center justify-center text-xs font-bold text-[#ffd814]">
               {{ m.avatar }}
             </div>
             <div>
@@ -185,33 +215,19 @@
 
     <!-- ── FAQ ── -->
     <section class="bg-white border border-slate-200 rounded p-5 sm:p-7">
-      <h2 class="text-lg font-bold text-slate-900 border-b border-slate-200 pb-2 mb-2">
-        Frequently Asked Questions
-      </h2>
+      <h2 class="text-lg font-bold text-slate-900 border-b border-slate-200 pb-2 mb-2">Frequently Asked Questions</h2>
       <div class="divide-y divide-slate-100">
         @for (faq of faqs; track faq.q; let i = $index) {
           <div class="py-3">
-            <button
-              type="button"
-              (click)="toggleFaq(i)"
-              class="flex w-full items-center justify-between text-left gap-4"
-            >
+            <button type="button" (click)="toggleFaq(i)"
+              class="flex w-full items-center justify-between text-left gap-4">
               <span class="text-sm font-medium text-[#007185] hover:underline">{{ faq.q }}</span>
-              <span class="text-slate-400 text-sm shrink-0">{{
-                openFaqIndex === i ? '▲' : '▼'
-              }}</span>
+              <span class="text-slate-400 text-sm shrink-0">{{ openFaqIndex === i ? '▲' : '▼' }}</span>
             </button>
-
-            <!-- ✅ CHANGE 4: added data-testid="faq-answer-{{i}}" -->
             @if (openFaqIndex === i) {
-              <p
-                [attr.data-testid]="'faq-answer-' + i"
-                class="mt-2 text-sm text-slate-600 leading-relaxed pl-0"
-              >
-                {{ faq.a }}
-              </p>
+              <p [attr.data-testid]="'faq-answer-' + i"
+                class="mt-2 text-sm text-slate-600 leading-relaxed">{{ faq.a }}</p>
             }
-
           </div>
         }
       </div>
@@ -220,20 +236,14 @@
     <!-- ── CTA ── -->
     <section class="bg-[#232f3e] rounded px-6 py-8 text-center text-white">
       <h2 class="text-lg font-bold sm:text-xl">Ready to start shopping?</h2>
-      <p class="mt-1 text-sm text-slate-300">
-        Join 50,000+ customers who trust eSHOPPERS every day.
-      </p>
+      <p class="mt-1 text-sm text-slate-300">Join 50,000+ customers who trust eSHOPPERS every day.</p>
       <div class="mt-4 flex flex-wrap justify-center gap-3">
-        <a
-          routerLink="/home"
-          class="bg-[#ffd814] hover:bg-[#f7ca00] text-[#131921] font-bold text-sm px-6 py-2 rounded"
-        >
+        <a routerLink="/home"
+          class="bg-[#ffd814] hover:bg-[#f7ca00] text-[#131921] font-bold text-sm px-6 py-2 rounded">
           Shop Now
         </a>
-        <a
-          routerLink="/signup"
-          class="border border-slate-400 text-white text-sm px-6 py-2 rounded hover:bg-white/10"
-        >
+        <a routerLink="/signup"
+          class="border border-slate-400 text-white text-sm px-6 py-2 rounded hover:bg-white/10">
           Create Account
         </a>
       </div>

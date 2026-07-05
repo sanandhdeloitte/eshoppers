@@ -1,3 +1,4 @@
+// filename: about.ts
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Header } from '../../../shared/header/header';
@@ -55,12 +56,51 @@ export class AboutComponent {
     { q: 'How does the price match work?',           a: 'Show us a cheaper live listing within 7 days of purchase and we refund the difference.' },
     { q: 'Is my personal data safe?',               a: 'We are GDPR compliant, never sell data, and use AES-256 encryption. See our Privacy Policy for details.' },
   ];
-  
+
+  // ── NEW SECTIONS ─────────────────────────────────────────────────────────
+
+  readonly awards = [
+    { year: '2021', title: 'Best New E-Commerce Platform', org: 'TechCrunch Disrupt' },
+    { year: '2022', title: 'Top Customer Experience Award', org: 'Retail Innovation Forum' },
+    { year: '2023', title: 'Sustainability Leader Award', org: 'Green Commerce Alliance' },
+    { year: '2024', title: 'Best Mobile Shopping App', org: 'App Store Awards' },
+    { year: '2025', title: 'Fastest Growing Marketplace', org: 'Forbes Commerce 100' },
+  ];
+
+  readonly press = [
+    { outlet: 'Forbes',       quote: '"eSHOPPERS is redefining what fast, ethical e-commerce looks like."', year: '2024' },
+    { outlet: 'TechCrunch',   quote: '"Their customer-first approach is rare in an industry obsessed with growth hacking."', year: '2023' },
+    { outlet: 'Wired',        quote: '"The team at eSHOPPERS built something that actually works for everyday shoppers."', year: '2023' },
+    { outlet: 'Business Insider', quote: '"50,000 customers don\'t lie. eSHOPPERS is a serious marketplace."', year: '2024' },
+  ];
+
+  readonly categories = [
+    { icon: '📱', name: 'Electronics',    count: '2,400+ products' },
+    { icon: '👗', name: 'Fashion',        count: '3,100+ products' },
+    { icon: '🏠', name: 'Home & Living',  count: '1,800+ products' },
+    { icon: '⚽', name: 'Sports',         count: '950+ products'   },
+    { icon: '💄', name: 'Beauty',         count: '700+ products'   },
+    { icon: '📚', name: 'Books',          count: '500+ products'   },
+    { icon: '🧸', name: 'Toys & Kids',    count: '400+ products'   },
+    { icon: '🌱', name: 'Garden',         count: '150+ products'   },
+  ];
+
+  readonly guarantees = [
+    { icon: '✅', title: 'Authentic Products',   desc: 'Every seller is vetted. Counterfeit items result in permanent bans.' },
+    { icon: '🔒', title: 'Secure Payments',      desc: 'Powered by Stripe. PCI-DSS Level 1 compliant. No card data stored.' },
+    { icon: '📦', title: 'Tracked Delivery',     desc: 'Real-time GPS tracking from warehouse to your door.' },
+    { icon: '⭐', title: 'Verified Reviews',     desc: 'Only customers who purchased can leave reviews. No fake ratings.' },
+    { icon: '💳', title: 'Easy Refunds',         desc: 'Automatic refund to your original payment method within 48 hrs.' },
+    { icon: '📞', title: '24/7 Support',         desc: 'Real humans. Average first response under 3 minutes, day or night.' },
+  ];
+
+  readonly partnerLogos = [
+    'Samsung', 'Sony', 'Nike', 'Adidas', 'Apple', 'Dell',
+    'LG', 'Zara', 'H&M', 'Philips', 'Bosch', 'Canon',
+  ];
+
   openFaqIndex: number | null = null;
   toggleFaq(i: number): void {
-    console.log("----------------------" + i)
     this.openFaqIndex = this.openFaqIndex === i ? null : i;
   }
-
-  
 }

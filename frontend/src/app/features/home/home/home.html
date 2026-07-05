@@ -1,15 +1,16 @@
+<!-- filename: home.html -->
 <app-header (onprofileClick)="showBannerAgain()"></app-header>
 
 <main class="min-h-screen bg-[#eaeded]">
   <div class="mx-auto max-w-7xl space-y-4 px-3 py-4 sm:px-4 sm:py-6">
 
+    <!-- ── WELCOME BANNER (logged in) ── -->
     @if (showBanner()) {
       @if (user$ | async; as user) {
         <section
           [ngClass]="bannerFading() ? 'opacity-0 -translate-y-2' : 'opacity-100 translate-y-0'"
           class="relative overflow-hidden rounded-xl bg-gradient-to-r from-[#232f3e] to-[#37475a]
                  px-5 py-7 text-white shadow-md transition-all duration-500 ease-in-out sm:px-8 sm:py-10">
-
           <div class="relative z-10 pr-16 sm:pr-32">
             <span class="inline-block rounded-full bg-white/10 px-3 py-0.5 text-xs font-medium text-emerald-200">
               Welcome back 👋
@@ -48,6 +49,7 @@
       }
     }
 
+    <!-- ── WELCOME BANNER (guest) ── -->
     @if (!(user$ | async)) {
       <section class="flex flex-col gap-4 rounded-xl bg-gradient-to-r from-[#232f3e] to-[#37475a]
                       px-5 py-6 text-white shadow-md sm:flex-row sm:items-center sm:justify-between sm:px-8 sm:py-8">
@@ -63,29 +65,27 @@
       </section>
     }
 
+    <!-- ── FILTER BAR ── -->
     <section class="rounded-xl border border-slate-200 bg-white shadow-sm">
-
       <div class="flex flex-wrap items-center gap-3 border-b border-slate-100 px-4 py-3">
 
         @if (activeCategory$ | async; as activeCategory) {
           @if (categories$ | async; as categories) {
-            <div class="flex items-center gap-2 min-w-[180px] flex-1 sm:flex-none">
+            <div class="flex items-center gap-2">
               <label for="categorySelect"
                 class="shrink-0 text-xs font-semibold text-slate-500 uppercase tracking-wide">
                 Department
               </label>
-              <div class="relative flex-1">
+              <div class="relative">
                 <select id="categorySelect"
                   [value]="activeCategory"
                   (change)="setCategory($any($event.target).value)"
-                  class="w-full appearance-none rounded-lg border border-slate-200 bg-[#f0f2f2]
+                  class="appearance-none rounded-lg border border-slate-200 bg-[#f0f2f2]
                          py-2 pl-3 pr-8 text-sm font-medium text-slate-800 shadow-sm
-                         outline-none transition hover:border-[#f3a847] focus:border-[#f3a847]
-                         focus:ring-1 focus:ring-[#f3a847] cursor-pointer">
+                         outline-none transition hover:border-[#f3a847]
+                         focus:border-[#f3a847] focus:ring-1 focus:ring-[#f3a847] cursor-pointer">
                   @for (cat of categories; track cat) {
-                    <option [value]="cat" [selected]="cat === activeCategory">
-                      {{ cat | titlecase }}
-                    </option>
+                    <option [value]="cat" [selected]="cat === activeCategory">{{ cat | titlecase }}</option>
                   }
                 </select>
                 <svg class="pointer-events-none absolute right-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
@@ -102,17 +102,15 @@
         @if (sortBy$ | async; as sortBy) {
           <div class="flex items-center gap-2">
             <label for="sortBy"
-              class="shrink-0 text-xs font-semibold text-slate-500 uppercase tracking-wide">
-              Sort
-            </label>
+              class="shrink-0 text-xs font-semibold text-slate-500 uppercase tracking-wide">Sort</label>
             <div class="relative">
               <select id="sortBy"
                 [value]="sortBy"
                 (change)="setSort($any($event.target).value)"
                 class="appearance-none rounded-lg border border-slate-200 bg-[#f0f2f2]
                        py-2 pl-3 pr-8 text-sm font-medium text-slate-800 shadow-sm
-                       outline-none transition hover:border-[#f3a847] focus:border-[#f3a847]
-                       focus:ring-1 focus:ring-[#f3a847] cursor-pointer">
+                       outline-none transition hover:border-[#f3a847]
+                       focus:border-[#f3a847] focus:ring-1 focus:ring-[#f3a847] cursor-pointer">
                 <option value="price-asc">Price: Low → High</option>
                 <option value="price-desc">Price: High → Low</option>
               </select>
@@ -128,18 +126,11 @@
 
         <div class="flex items-center gap-3 text-xs text-slate-500 sm:text-sm">
           @if (products$ | async; as products) {
-            <span>
-              Showing
-              <strong class="font-semibold text-slate-800">{{ products.length }}</strong>
-              results
-            </span>
+            <span>Showing <strong class="font-semibold text-slate-800">{{ products.length }}</strong></span>
           }
           @if (total$ | async; as total) {
             <span class="text-slate-300">|</span>
-            <span>
-              Total
-              <strong class="font-semibold text-slate-800">{{ total }}</strong>
-            </span>
+            <span>of <strong class="font-semibold text-slate-800">{{ total }}</strong></span>
           }
         </div>
       </div>
@@ -149,16 +140,13 @@
           <span class="text-xs text-slate-400">Browsing:</span>
           <span class="inline-flex items-center gap-1.5 rounded-full bg-[#131921] px-3 py-1
                        text-xs font-semibold text-white">
-            <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.4 5.6M17 13l1.4 5.6M9 19a1 1 0 100 2 1 1 0 000-2zm8 0a1 1 0 100 2 1 1 0 000-2z"/>
-            </svg>
-            {{ activeCategory | titlecase }}
+            🛍️ {{ activeCategory | titlecase }}
           </span>
         </div>
       }
     </section>
 
+    <!-- ── PRODUCTS GRID ── -->
     <section class="rounded-xl bg-white p-3 shadow-sm sm:p-4">
 
       @if (loading$ | async) {
@@ -168,7 +156,7 @@
           }
         </div>
 
-\      } @else if (error$ | async; as err) {
+      } @else if (error$ | async; as err) {
         <app-error-message [message]="err"></app-error-message>
 
       } @else if (products$ | async; as products) {
@@ -187,45 +175,39 @@
           </div>
 
         } @else {
+
+          <!-- Product grid -->
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             @for (item of products; track item.id) {
               <app-product-card [product]="item"></app-product-card>
             }
           </div>
 
-          @if (page$ | async; as page) {
-            @if (totalPages$ | async; as totalPages) {
-              <div class="mt-6 flex items-center justify-center gap-2">
+          <!-- Loading more spinner -->
+          @if (loadingMore$ | async) {
+            <div class="mt-6 flex flex-col items-center justify-center gap-3 py-8">
+              <div class="h-9 w-9 animate-spin rounded-full border-4 border-slate-200 border-t-[#f3a847]"></div>
+              <p class="text-sm text-slate-400 font-medium">Loading more products…</p>
+            </div>
+          }
 
-                 <button type="button" (click)="goToPage(page - 1)" [disabled]="page <= 1"
-                  class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200
-                         text-slate-600 transition hover:border-[#f3a847] hover:text-[#131921]
-                         disabled:cursor-not-allowed disabled:opacity-40">
-                  <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-                  </svg>
-                </button>
-
-                 <div class="flex items-center gap-1.5 rounded-lg border border-slate-200 px-4 py-1.5">
-                  <span class="text-sm font-semibold text-slate-800">{{ page }}</span>
-                  <span class="text-xs text-slate-400">of</span>
-                  <span class="text-sm font-semibold text-slate-800">{{ totalPages }}</span>
-                </div>
-
-                 <button type="button" (click)="goToPage(page + 1)" [disabled]="page >= totalPages"
-                  class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200
-                         text-slate-600 transition hover:border-[#f3a847] hover:text-[#131921]
-                         disabled:cursor-not-allowed disabled:opacity-40">
-                  <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                  </svg>
-                </button>
-
-              </div>
-            }
+          <!-- All loaded indicator -->
+          @if ((hasMore$ | async) === false && !(loadingMore$ | async)) {
+            <div class="mt-6 flex items-center justify-center gap-3 py-4">
+              <span class="h-px w-20 bg-slate-200"></span>
+              <span class="text-xs font-medium text-slate-400">All {{ products.length }} products loaded</span>
+              <span class="h-px w-20 bg-slate-200"></span>
+            </div>
           }
         }
       }
+
+      <!--
+        ✅ SENTINEL — always in DOM, never inside @if
+           IntersectionObserver watches this to trigger next load
+      -->
+      <div id="scroll-sentinel" class="h-4 w-full"></div>
+
     </section>
 
   </div>

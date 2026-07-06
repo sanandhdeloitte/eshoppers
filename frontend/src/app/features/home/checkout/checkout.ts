@@ -8,8 +8,6 @@ import { AuthService } from '../../../core/auth/services/auth-service';
 import { environment } from '../../../../environments/environment';
 import { Footer } from '../../../shared/footer/footer';
 
-declare const Stripe: any;
-
 @Component({
   selector: 'app-checkout',
   standalone: true,
@@ -38,13 +36,35 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
   async ngOnInit(): Promise<void> {
     this.lists.loadAll();
-    this.stripe = Stripe(environment.stripePublishableKey);
+
+    await this.loadStripeScript();
+    this.stripe = (window as any)['Stripe'](environment.stripePublishableKey);
 
     this.paymentService.createIntent(this.total, this.lists.cartItems())
       .subscribe({
         next:  (res) => { this.intentReady.set(true); this.mountCard(res.clientSecret); },
         error: ()    => this.errorMessage.set('Could not initialize payment. Please try again.'),
       });
+  }
+
+  private loadStripeScript(): Promise<void> {
+    if ((window as any)['Stripe']) return Promise.resolve();
+    const existing = document.getElementById('stripe-js') as HTMLScriptElement | null;
+    if (existing) {
+      return new Promise((resolve, reject) => {
+        existing.addEventListener('load',  () => resolve(), { once: true });
+        existing.addEventListener('error', () => reject(new Error('Stripe load failed')), { once: true });
+      });
+    }
+    return new Promise((resolve, reject) => {
+      const script  = document.createElement('script');
+      script.id     = 'stripe-js';
+      script.src    = 'https://js.stripe.com/v3/';
+      script.async  = true;
+      script.onload  = () => resolve();
+      script.onerror = () => reject(new Error('Stripe load failed'));
+      document.head.appendChild(script);
+    });
   }
 
   private mountCard(clientSecret: string): void {
@@ -56,9 +76,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       },
     });
     this.cardElement.mount('#card-element');
-    this.cardElement.on('ready',  ()      => this.isCardReady.set(true));
+    this.cardElement.on('ready',  ()       => this.isCardReady.set(true));
     this.cardElement.on('change', (e: any) => this.errorMessage.set(e.error?.message ?? ''));
-
     (this as any)._clientSecret = clientSecret;
   }
 
@@ -71,8 +90,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       (this as any)._clientSecret,
       {
         payment_method: {
-          card:             this.cardElement,
-          billing_details:  { email: this.auth.user?.email ?? '' },
+          card:            this.cardElement,
+          billing_details: { email: this.auth.user?.email ?? '' },
         },
       }
     );
@@ -81,14 +100,10 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       this.errorMessage.set(result.error.message);
       this.isLoading.set(false);
     } else if (result.paymentIntent?.status === 'succeeded') {
-      this.lists.clearCart(); 
-      this.router.navigate(['/payment-status'], {
-        queryParams: { status: 'success' },
-      });
+      this.lists.clearCart();
+      this.router.navigate(['/payment-status'], { queryParams: { status: 'success' } });
     }
   }
 
-  ngOnDestroy(): void {
-    this.cardElement?.destroy();
-  }
+  ngOnDestroy(): void { this.cardElement?.destroy(); }
 }

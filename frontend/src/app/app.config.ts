@@ -1,12 +1,13 @@
 import {
-  ApplicationConfig,
-  importProvidersFrom,
-  inject,
-  provideAppInitializer,
-  provideBrowserGlobalErrorListeners,
+  ApplicationConfig, importProvidersFrom, inject,
+  provideAppInitializer, provideBrowserGlobalErrorListeners,
 } from '@angular/core';
-import { provideRouter, withEnabledBlockingInitialNavigation } from '@angular/router';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
+import {
+  provideHttpClient, withInterceptors,
+  withFetch,        
+} from '@angular/common/http';
+import { provideClientHydration, withEventReplay } from '@angular/platform-browser'; // ← NEW
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { provideStore } from '@ngrx/store';
@@ -21,31 +22,42 @@ import { AuthEffects } from './store/auth/auth.effects';
 import { ProductsEffects } from './store/products/products.effects';
 import { AuthActions } from './store/auth/auth.actions';
 import { AuthService } from './core/auth/services/auth-service';
+import { environment } from '../environments/environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes, withEnabledBlockingInitialNavigation()),
-    provideHttpClient(withInterceptors([authInterceptor])),
+    provideClientHydration(withEventReplay()),
+
+    provideRouter(routes),
+
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([authInterceptor]),
+    ),
+
     provideAnimations(),
     importProvidersFrom(ToastrModule.forRoot({
-      positionClass: 'toast-top-right',
-      timeOut: 2000,
+      positionClass:     'toast-top-right',
+      timeOut:           2000,
       preventDuplicates: true,
     })),
     provideStore({
-      [authFeature.name]: authFeature.reducer,
+      [authFeature.name]:     authFeature.reducer,
       [productsFeature.name]: productsFeature.reducer,
     }),
     provideEffects([AuthEffects, ProductsEffects]),
-    provideStoreDevtools({ maxAge: 25, logOnly: false }),
+    provideStoreDevtools({
+      maxAge:  25,
+      logOnly: environment.production,  
+    }),
     provideAppInitializer(async () => {
-      const store = inject(Store);
+      const store       = inject(Store);
       const authService = inject(AuthService);
       await authService.restoreSession();
       if (authService.user) {
         store.dispatch(AuthActions.restoreSessionSuccess({
-          user: authService.user,
+          user:  authService.user,
           token: authService.token,
         }));
       } else {

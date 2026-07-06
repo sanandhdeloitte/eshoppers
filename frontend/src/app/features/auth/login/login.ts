@@ -20,7 +20,7 @@ declare global { interface Window { google?: any; } }
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterLink, FormsModule, AsyncPipe, ButtonComponent, InputComponent, ErrorMessageComponent],
+  imports: [FormsModule, AsyncPipe, ButtonComponent, InputComponent, ErrorMessageComponent],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })

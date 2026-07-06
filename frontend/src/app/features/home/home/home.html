@@ -1,19 +1,18 @@
-<!-- filename: home.html -->
 <app-header (onprofileClick)="showBannerAgain()"></app-header>
 
 <main class="min-h-screen bg-[#eaeded]">
   <div class="mx-auto max-w-7xl space-y-4 px-3 py-4 sm:px-4 sm:py-6">
-
-    <!-- ── WELCOME BANNER (logged in) ── -->
     @if (showBanner()) {
       @if (user$ | async; as user) {
         <section
           [ngClass]="bannerFading() ? 'opacity-0 -translate-y-2' : 'opacity-100 translate-y-0'"
-          class="relative overflow-hidden rounded-xl bg-gradient-to-r from-[#232f3e] to-[#37475a]
-                 px-5 py-7 text-white shadow-md transition-all duration-500 ease-in-out sm:px-8 sm:py-10">
+          class="relative min-h-[176px] overflow-hidden rounded-xl bg-gradient-to-r from-[#232f3e] to-[#37475a] px-5 py-7 text-white shadow-md transition-all duration-500 ease-in-out sm:px-8 sm:py-10"
+        >
           <div class="relative z-10 pr-16 sm:pr-32">
-            <span class="inline-block rounded-full bg-white/10 px-3 py-0.5 text-xs font-medium text-emerald-200">
-              Welcome back 👋
+            <span
+              class="inline-block rounded-full bg-white/10 px-3 py-0.5 text-xs font-medium text-emerald-200"
+            >
+              Welcome back 
             </span>
             <h1 class="mt-2 text-2xl font-extrabold tracking-tight sm:text-3xl">{{ user.name }}</h1>
             <p class="mt-0.5 text-sm text-slate-300">{{ user.email }}</p>
@@ -23,74 +22,110 @@
           </div>
 
           @if (user.picture) {
-            <img [src]="user.picture" [alt]="user.name"
-              class="absolute right-10 top-1/2 hidden h-20 w-20 -translate-y-1/2 rounded-full
-                     object-cover ring-4 ring-white/20 shadow-lg sm:block"/>
+            <img
+              [src]="user.picture"
+              [alt]="user.name"
+              class="absolute right-10 top-1/2 hidden h-20 w-20 -translate-y-1/2 rounded-full object-cover ring-4 ring-white/20 shadow-lg sm:block"
+              width="80"
+              height="80"
+              loading="eager"
+              decoding="async"
+            />
           } @else {
-            <div class="absolute right-10 top-1/2 hidden h-16 w-16 -translate-y-1/2 items-center
-                        justify-center rounded-full bg-white/20 text-2xl font-bold sm:flex">
+            <div
+              class="absolute right-10 top-1/2 hidden h-16 w-16 -translate-y-1/2 items-center justify-center rounded-full bg-white/20 text-2xl font-bold sm:flex"
+            >
               {{ user.name.charAt(0).toUpperCase() }}
             </div>
           }
 
-          <button type="button" (click)="dismissBanner()"
-            class="absolute right-3 top-3 z-20 flex h-7 w-7 items-center justify-center
-                   rounded-full bg-white/10 hover:bg-white/25 transition">
-            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          <button
+            type="button"
+            (click)="dismissBanner()"
+            aria-label="Dismiss welcome banner"
+            class="absolute right-3 top-3 z-20 flex h-7 w-7 items-center justify-center rounded-full bg-white/10 transition hover:bg-white/25"
+          >
+            <svg
+              class="h-4 w-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
 
           <div class="absolute bottom-0 left-0 h-0.5 w-full bg-white/10">
-            <div [ngClass]="bannerFading() ? 'w-0' : 'w-full'"
-                 class="h-full bg-emerald-400/60 transition-all duration-[4000ms] ease-linear"></div>
+            <div
+              [ngClass]="bannerFading() ? 'w-0' : 'w-full'"
+              class="h-full bg-emerald-400/60 transition-all duration-[4000ms] ease-linear"
+            ></div>
           </div>
         </section>
       }
     }
 
-    <!-- ── WELCOME BANNER (guest) ── -->
     @if (!(user$ | async)) {
-      <section class="flex flex-col gap-4 rounded-xl bg-gradient-to-r from-[#232f3e] to-[#37475a]
-                      px-5 py-6 text-white shadow-md sm:flex-row sm:items-center sm:justify-between sm:px-8 sm:py-8">
+      <section
+        class="flex min-h-[136px] flex-col gap-4 rounded-xl bg-gradient-to-r from-[#232f3e] to-[#37475a] px-5 py-6 text-white shadow-md sm:flex-row sm:items-center sm:justify-between sm:px-8 sm:py-8"
+      >
         <div>
-          <h1 class="text-xl font-bold sm:text-2xl">Welcome to eSHOPPERS 🛍️</h1>
-          <p class="mt-1 text-sm text-slate-300">Sign in to access your cart, wishlist and exclusive deals.</p>
+          <h1 class="text-xl font-bold sm:text-2xl">Welcome to eSHOPPERS</h1>
+          <p class="mt-1 text-sm text-slate-300">
+            Sign in to access your cart, wishlist and exclusive deals.
+          </p>
         </div>
-        <a routerLink="/login"
-           class="inline-block shrink-0 rounded-full bg-[#ffd814] px-6 py-2.5 text-sm font-bold
-                  text-[#131921] shadow hover:bg-[#f7ca00] transition">
+        <a
+          routerLink="/login"
+          class="inline-block shrink-0 rounded-full bg-[#ffd814] px-6 py-2.5 text-sm font-bold text-[#131921] shadow transition hover:bg-[#f7ca00]"
+        >
           Sign In / Register
         </a>
       </section>
     }
 
-    <!-- ── FILTER BAR ── -->
-    <section class="rounded-xl border border-slate-200 bg-white shadow-sm">
+    <section class="min-h-[92px] rounded-xl border border-slate-200 bg-white shadow-sm">
       <div class="flex flex-wrap items-center gap-3 border-b border-slate-100 px-4 py-3">
-
         @if (activeCategory$ | async; as activeCategory) {
           @if (categories$ | async; as categories) {
             <div class="flex items-center gap-2">
-              <label for="categorySelect"
-                class="shrink-0 text-xs font-semibold text-slate-500 uppercase tracking-wide">
-                Department
+              <label
+                for="categorySelect"
+                class="shrink-0 text-xs font-semibold uppercase tracking-wide text-slate-500"
+              >
+                Catergories
               </label>
               <div class="relative">
-                <select id="categorySelect"
+                <select
+                  id="categorySelect"
                   [value]="activeCategory"
                   (change)="setCategory($any($event.target).value)"
-                  class="appearance-none rounded-lg border border-slate-200 bg-[#f0f2f2]
-                         py-2 pl-3 pr-8 text-sm font-medium text-slate-800 shadow-sm
-                         outline-none transition hover:border-[#f3a847]
-                         focus:border-[#f3a847] focus:ring-1 focus:ring-[#f3a847] cursor-pointer">
+                  class="appearance-none rounded-lg border border-slate-200 bg-[#f0f2f2] py-2 pl-3 pr-8 text-sm font-medium text-slate-800 shadow-sm outline-none transition hover:border-[#f3a847] focus:border-[#f3a847] focus:ring-1 focus:ring-[#f3a847] cursor-pointer"
+                >
                   @for (cat of categories; track cat) {
-                    <option [value]="cat" [selected]="cat === activeCategory">{{ cat | titlecase }}</option>
+                    <option [value]="cat" [selected]="cat === activeCategory">
+                      {{ cat | titlecase }}
+                    </option>
                   }
                 </select>
-                <svg class="pointer-events-none absolute right-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
-                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                <svg
+                  class="pointer-events-none absolute right-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  />
                 </svg>
               </div>
             </div>
@@ -101,22 +136,33 @@
 
         @if (sortBy$ | async; as sortBy) {
           <div class="flex items-center gap-2">
-            <label for="sortBy"
-              class="shrink-0 text-xs font-semibold text-slate-500 uppercase tracking-wide">Sort</label>
+            <label
+              for="sortBy"
+              class="shrink-0 text-xs font-semibold uppercase tracking-wide text-slate-500"
+              >Sort</label
+            >
             <div class="relative">
-              <select id="sortBy"
+              <select
+                id="sortBy"
                 [value]="sortBy"
                 (change)="setSort($any($event.target).value)"
-                class="appearance-none rounded-lg border border-slate-200 bg-[#f0f2f2]
-                       py-2 pl-3 pr-8 text-sm font-medium text-slate-800 shadow-sm
-                       outline-none transition hover:border-[#f3a847]
-                       focus:border-[#f3a847] focus:ring-1 focus:ring-[#f3a847] cursor-pointer">
+                class="appearance-none rounded-lg border border-slate-200 bg-[#f0f2f2] py-2 pl-3 pr-8 text-sm font-medium text-slate-800 shadow-sm outline-none transition hover:border-[#f3a847] focus:border-[#f3a847] focus:ring-1 focus:ring-[#f3a847] cursor-pointer"
+              >
                 <option value="price-asc">Price: Low → High</option>
                 <option value="price-desc">Price: High → Low</option>
               </select>
-              <svg class="pointer-events-none absolute right-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
-                   fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              <svg
+                class="pointer-events-none absolute right-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                />
               </svg>
             </div>
           </div>
@@ -126,11 +172,16 @@
 
         <div class="flex items-center gap-3 text-xs text-slate-500 sm:text-sm">
           @if (products$ | async; as products) {
-            <span>Showing <strong class="font-semibold text-slate-800">{{ products.length }}</strong></span>
+            <span
+              >Showing
+              <strong class="font-semibold text-slate-800">{{ products.length }}</strong></span
+            >
           }
           @if (total$ | async; as total) {
             <span class="text-slate-300">|</span>
-            <span>of <strong class="font-semibold text-slate-800">{{ total }}</strong></span>
+            <span
+              >of <strong class="font-semibold text-slate-800">{{ total }}</strong></span
+            >
           }
         </div>
       </div>
@@ -138,78 +189,77 @@
       @if (activeCategory$ | async; as activeCategory) {
         <div class="flex items-center gap-2 px-4 py-2.5">
           <span class="text-xs text-slate-400">Browsing:</span>
-          <span class="inline-flex items-center gap-1.5 rounded-full bg-[#131921] px-3 py-1
-                       text-xs font-semibold text-white">
+          <span
+            class="inline-flex items-center gap-1.5 rounded-full bg-[#131921] px-3 py-1 text-xs font-semibold text-white"
+          >
             🛍️ {{ activeCategory | titlecase }}
           </span>
         </div>
       }
     </section>
 
-    <!-- ── PRODUCTS GRID ── -->
     <section class="rounded-xl bg-white p-3 shadow-sm sm:p-4">
-
       @if (loading$ | async) {
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           @for (item of skeletonItems; track item) {
             <app-product-card [skeleton]="true"></app-product-card>
           }
         </div>
-
       } @else if (error$ | async; as err) {
         <app-error-message [message]="err"></app-error-message>
-
       } @else if (products$ | async; as products) {
-
         @if (products.length === 0) {
-          <div class="flex flex-col items-center justify-center rounded-2xl border
-                      border-dashed border-slate-200 py-20 text-center">
+          <div
+            class="flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-200 py-20 text-center"
+          >
             <div class="mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-slate-100">
-              <svg class="h-7 w-7 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                      d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/>
+              <svg
+                class="h-7 w-7 text-slate-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"
+                />
               </svg>
             </div>
             <h2 class="text-base font-semibold text-slate-700">No products found</h2>
             <p class="mt-1 text-sm text-slate-400">Try a different category or sort option.</p>
           </div>
-
         } @else {
-
-          <!-- Product grid -->
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            @for (item of products; track item.id) {
-              <app-product-card [product]="item"></app-product-card>
+            @for (item of products; track item.id; let i = $index) {
+              <app-product-card [product]="item" ></app-product-card>
             }
           </div>
 
-          <!-- Loading more spinner -->
           @if (loadingMore$ | async) {
             <div class="mt-6 flex flex-col items-center justify-center gap-3 py-8">
-              <div class="h-9 w-9 animate-spin rounded-full border-4 border-slate-200 border-t-[#f3a847]"></div>
-              <p class="text-sm text-slate-400 font-medium">Loading more products…</p>
+              <div
+                class="h-9 w-9 animate-spin rounded-full border-4 border-slate-200 border-t-[#f3a847]"
+              ></div>
+              <p class="text-sm font-medium text-slate-400">Loading more products…</p>
             </div>
           }
 
-          <!-- All loaded indicator -->
           @if ((hasMore$ | async) === false && !(loadingMore$ | async)) {
             <div class="mt-6 flex items-center justify-center gap-3 py-4">
               <span class="h-px w-20 bg-slate-200"></span>
-              <span class="text-xs font-medium text-slate-400">All {{ products.length }} products loaded</span>
+              <span class="text-xs font-medium text-slate-400"
+                >All {{ products.length }} products loaded</span
+              >
               <span class="h-px w-20 bg-slate-200"></span>
             </div>
           }
         }
       }
 
-      <!--
-        ✅ SENTINEL — always in DOM, never inside @if
-           IntersectionObserver watches this to trigger next load
-      -->
       <div id="scroll-sentinel" class="h-4 w-full"></div>
-
     </section>
-
   </div>
 </main>
 

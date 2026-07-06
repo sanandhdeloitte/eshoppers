@@ -16,24 +16,32 @@ const orderRoutes = require('./routes/order.routes');
 
 const app = express();
 
+const rawFrontendUrls = process.env.FRONTEND_URL
+  ? process.env.FRONTEND_URL.split(',').map((u) => u.trim())
+  : [];
+
 const allowedOrigins = [
-  process.env.FRONTEND_URL,
+  ...rawFrontendUrls,
   'http://localhost:4000',
   'http://localhost:4200',
 ].filter(Boolean);
 
+console.log(`Allowed CORS origins: ${allowedOrigins.join(', ')}`);
+
 const corsOptions = {
   origin(origin, callback) {
-    if (!origin) {
-      return callback(null, true);
-    }
+    // Allow requests with no origin (Postman, curl, server-to-server)
+    if (!origin) return callback(null, true);
 
     if (allowedOrigins.includes(origin)) {
       return callback(null, true);
     }
 
+    console.warn(`CORS blocked for origin: ${origin}`);
     return callback(new Error(`CORS blocked for origin: ${origin}`));
   },
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
 };
 
@@ -59,6 +67,8 @@ if (!staticPath) {
 } else {
   console.log(`Serving static files from: ${staticPath}`);
 }
+
+app.options('*', cors(corsOptions));
 
 app.use(cors(corsOptions));
 app.use('/api/payments/webhook', express.raw({ type: 'application/json' }));
@@ -109,7 +119,6 @@ connectToDatabase()
     const port = process.env.PORT || 3000;
     app.listen(port, () => {
       console.log(`Backend running on port ${port}`);
-      console.log(`Allowed CORS origins: ${allowedOrigins.join(', ')}`);
     });
   })
   .catch((err) => {

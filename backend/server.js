@@ -30,13 +30,8 @@ console.log(`Allowed CORS origins: ${allowedOrigins.join(', ')}`);
 
 const corsOptions = {
   origin(origin, callback) {
-    // Allow requests with no origin (Postman, curl, server-to-server)
     if (!origin) return callback(null, true);
-
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
-
+    if (allowedOrigins.includes(origin)) return callback(null, true);
     console.warn(`CORS blocked for origin: ${origin}`);
     return callback(new Error(`CORS blocked for origin: ${origin}`));
   },
@@ -68,7 +63,8 @@ if (!staticPath) {
   console.log(`Serving static files from: ${staticPath}`);
 }
 
-app.options('*', cors(corsOptions));
+// ✅ FIX: Use RegExp to bypass path-to-regexp entirely — works on ALL Express versions
+app.options(/.*/, cors(corsOptions));
 
 app.use(cors(corsOptions));
 app.use('/api/payments/webhook', express.raw({ type: 'application/json' }));

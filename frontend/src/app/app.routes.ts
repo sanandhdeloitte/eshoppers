@@ -3,7 +3,7 @@ import { authGuard } from './core/auth/guards/auth-guard';
 
 export const routes: Routes = [
   {
-    path: '',
+    path: 'home',
     canActivate: [authGuard],
     loadComponent: () => import('./features/home/home/home').then(m => m.Home),
   },

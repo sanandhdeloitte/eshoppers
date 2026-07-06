@@ -17,7 +17,7 @@ const indexHtml = existsSync(resolve(browserDistFolder, 'index.csr.html'))
 
 const app = express();
 const angularApp = new AngularNodeAppEngine({
-  allowedHosts: ['localhost', 'localhost:4000', '127.0.0.1', '127.0.0.1:4000', '0.0.0.0', '0.0.0.0:4000'],
+  allowedHosts: ['localhost', 'localhost:4000', '127.0.0.1', '127.0.0.1:4000', '0.0.0.0', '0.0.0.0:4000', 'eshoppers-gb0v.onrender.com'],
 });
 
 app.disable('x-powered-by');

@@ -16,8 +16,20 @@ const indexHtml = existsSync(resolve(browserDistFolder, 'index.csr.html'))
   : resolve(browserDistFolder, 'index.html');
 
 const app = express();
+
+const renderHostname = process.env['RENDER_EXTERNAL_HOSTNAME'];
+
 const angularApp = new AngularNodeAppEngine({
-  allowedHosts: ['localhost', 'localhost:4000', '127.0.0.1', '127.0.0.1:4000', '0.0.0.0', '0.0.0.0:4000', 'eshoppers-gb0v.onrender.com'],
+  allowedHosts: [
+    'localhost',
+    'localhost:4000',
+    '127.0.0.1',
+    '127.0.0.1:4000',
+    '0.0.0.0',
+    '0.0.0.0:4000',
+    ...(renderHostname ? [renderHostname] : []),
+  ],
+  trustProxyHeaders: true,
 });
 
 app.disable('x-powered-by');

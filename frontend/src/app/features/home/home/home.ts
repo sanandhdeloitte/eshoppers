@@ -1,6 +1,6 @@
 import {
   ChangeDetectionStrategy, Component, OnDestroy, OnInit,
-  PLATFORM_ID, inject, signal,
+  PLATFORM_ID, inject, signal, HostListener,
 } from '@angular/core';
 import { isPlatformBrowser, TitleCasePipe, AsyncPipe, NgClass } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -39,16 +39,24 @@ export class Home implements OnInit, OnDestroy {
   products$       = this.store.select(selectProducts);
   loading$        = this.store.select(selectProductsLoading);
   loadingMore$    = this.store.select(selectLoadingMore);
-  hasMore$        = this.store.select(selectHasMore);
   error$          = this.store.select(selectProductsError);
   categories$     = this.store.select(selectCategories);
   activeCategory$ = this.store.select(selectActiveCategory);
   sortBy$         = this.store.select(selectSortBy);
   total$          = this.store.select(selectTotal);
 
-  skeletonItems = Array.from({ length: 8 }, (_, i) => i);
-  showBanner    = signal(true);
-  bannerFading  = signal(false);
+  hasMore = this.store.selectSignal(selectHasMore);
+
+  skeletonItems  = Array.from({ length: 8 }, (_, i) => i);
+  showBanner     = signal(true);
+  bannerFading   = signal(false);
+  isCategoryOpen = signal(false);
+  isSortOpen     = signal(false);
+
+  readonly sortOptions = [
+    { value: 'price-asc',  label: 'Price: Low → High' },
+    { value: 'price-desc', label: 'Price: High → Low' },
+  ] as const;
 
   ngOnInit(): void {
     this.store.dispatch(ProductsActions.loadCategories());
@@ -68,6 +76,38 @@ export class Home implements OnInit, OnDestroy {
     this.observer?.disconnect();
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  toggleCategory(): void {
+    this.isCategoryOpen.update(v => !v);
+    this.isSortOpen.set(false);
+  }
+
+  toggleSort(): void {
+    this.isSortOpen.update(v => !v);
+    this.isCategoryOpen.set(false);
+  }
+
+  selectCategory(category: string): void {
+    this.isCategoryOpen.set(false);
+    this.setCategory(category);
+  }
+
+  selectSort(sortBy: 'price-asc' | 'price-desc'): void {
+    this.isSortOpen.set(false);
+    this.setSort(sortBy);
+  }
+
+  getSortLabel(value: string): string {
+    return this.sortOptions.find(o => o.value === value)?.label ?? value;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(e: MouseEvent): void {
+    if (!(e.target as HTMLElement).closest('[data-dropdown]')) {
+      this.isCategoryOpen.set(false);
+      this.isSortOpen.set(false);
+    }
   }
 
   setCategory(category: string): void {
@@ -94,8 +134,6 @@ export class Home implements OnInit, OnDestroy {
     this.showBanner.set(true);
   }
 
-  // ── Private helpers ───────────────────────────────────────────────
-
   private scheduleBannerDismiss(): void {
     window.setTimeout(() => this.bannerFading.set(true), 4000);
     window.setTimeout(() => this.showBanner.set(false), 4500);
@@ -120,11 +158,19 @@ export class Home implements OnInit, OnDestroy {
 
     this.observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting)
-          this.store.dispatch(ProductsActions.loadMoreProducts());
+        if (!entries[0].isIntersecting) return;
+
+        if (!this.hasMore()) {
+          this.observer?.disconnect();
+          this.observer = null;
+          return;
+        }
+
+        this.store.dispatch(ProductsActions.loadMoreProducts());
       },
       { root: null, rootMargin: '300px', threshold: 0 },
     );
+
     this.observer.observe(sentinel);
   }
 }

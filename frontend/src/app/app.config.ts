@@ -2,7 +2,7 @@ import {
   ApplicationConfig, importProvidersFrom, inject,
   provideAppInitializer, provideBrowserGlobalErrorListeners,
 } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import {
   provideHttpClient, withInterceptors,
   withFetch,        
@@ -29,7 +29,12 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideClientHydration(withEventReplay()),
 
-    provideRouter(routes),
+    provideRouter(routes,
+      withInMemoryScrolling({
+        scrollPositionRestoration: 'top',
+        anchorScrolling: 'enabled',
+      })
+    ),
 
     provideHttpClient(
       withFetch(),
